@@ -18,7 +18,15 @@ class Block{
 
     static genesis(){
         //genesis block, typically hardcoded with dummy values 
-        return new this('Genesis Time', '-------', 'jf34nm98m2aek', []);
+        return new this('Genesis Time', '-------', 'gen321nm98m2aek', []);
+    }
+
+    static mineBlock(prevBlock, data){
+        const timestamp = Date.now();
+        const prevHash = prevBlock.hash;
+        const hash = 'todo-hash';
+
+        return new this(timestamp, prevHash, hash, data);
     }
 
 }
