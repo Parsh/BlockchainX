@@ -1,0 +1,19 @@
+{
+  "name": "blockchainx",
+  "version": "1.0.0",
+  "description": "Implemetaion of Blockchain[Original]",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Parsh24/BlockchainX.git"
+  },
+  "author": "Parshva Jain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Parsh24/BlockchainX/issues"
+  },
+  "homepage": "https://github.com/Parsh24/BlockchainX#readme"
+}
