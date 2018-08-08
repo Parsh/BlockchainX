@@ -5,11 +5,11 @@ const Blockchain = require('./blockchain')
 // console.log(testBlock.toString());
 
 bc = new Blockchain();
-bc.addBlock('dummy');
 
 bc1 = new Blockchain();
 bc1.addBlock('dummy');
 
-console.log(bc.chain[0])
+bc.replaceChain(bc1.chain)
 
-console.log(bc.isValidChain(bc1));
+console.log(bc.chain == bc1.chain)
+console.log(bc.chain)

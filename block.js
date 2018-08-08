@@ -9,12 +9,11 @@ class Block{
     }
 
     toString(){
-        //becuase the hashs are going to be quite long, we used the subString function
-        //so as to log a concise, not to mention readable, output.
+        
         return `Block --
         Timestamp             : ${this.timestamp}
-        Previous Block's Hash : ${this.prevHash.substring(0, 10)}
-        Current Block's Hash  : ${this.hash.substring(0, 10)}
+        Previous Block's Hash : ${this.prevHash}
+        Current Block's Hash  : ${this.hash}
         Block's Data          : ${this.data} `;
     }
 
