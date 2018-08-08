@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Blockchain = require('../blockchain/blockchain');
 
-const PORT = process.env.PORT || 3000;
+const HTTP_PORT = process.env.PORT || 3000;
 
 const app = express();
 const blockchain = new Blockchain();
@@ -24,6 +24,6 @@ app.post('/mine', (req, res) => {
     res.redirect('/blocks');
 });
 
-app.listen(PORT, () => {
-    console.log(`Server up and listening at ${PORT}`)
+app.listen(HTTP_PORT, () => {
+    console.log(`Server up and listening at ${HTTP_PORT}`)
 });
