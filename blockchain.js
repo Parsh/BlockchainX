@@ -41,7 +41,7 @@ class Blockchain{
             console.log("The recieved chain isn't valid");
         } else {
             console.log("Replacing the current blockchain with the supplied one #Long&Valid");
-            this.chain = newChain
+            this.chain = newChain;
         }
     }
 }
