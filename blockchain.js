@@ -20,12 +20,12 @@ class Blockchain{
 
         if (JSON.stringify(chainx[0]) !== JSON.stringify(Block.genesis())) return false;
 
-        for (let blockNum =1; blockNum < chian.length; blockNum++){
+        for (let blockNum =1; blockNum < chainx.length; blockNum++){
             const currentBlock = chainx[blockNum];
             const prevBlock = chainx[blockNum - 1];
 
             if (currentBlock.prevHash !== prevBlock.hash ||
-                block.hash !== Block.blockHash(block)){
+                currentBlock.hash !== Block.blockHash(currentBlock)){
                 return false;
             }
         }

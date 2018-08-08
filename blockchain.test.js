@@ -24,20 +24,20 @@ describe('Blockchain', () => {
     it('should validate a valid chain', () => {
         blockchain2.addBlock('bat'); //supplying the same data such that blockhain2 = blockchain
         
-        expect(blockchain.isValidChain(blockchain2)).toBe(true);
+        expect(blockchain.isValidChain(blockchain2.chain)).toBe(true);
     });
 
     it('should invalidate a chain with corrupt genesis block', () => {
         blockchain2.chain[0].data = 'Corrupt data';
         
-        expect(blockchain.isValidChain(blockchain2)).toBe(false); 
+        expect(blockchain.isValidChain(blockchain2.chain)).toBe(false); 
     })
 
     it('should invalidate a chain with a corrupt block', () => {
         blockchain2.addBlock('foo');
         blockchain2.chain[1].data = 'Corrupt foo';
 
-        expect(blockchain.isValidChain(blockchain2)).toBe(false);
+        expect(blockchain.isValidChain(blockchain2.chain)).toBe(false);
     })
 
 });
