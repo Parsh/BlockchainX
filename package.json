@@ -2,7 +2,7 @@
   "name": "blockchainx",
   "version": "1.0.0",
   "description": "Implemetaion of Blockchain[Original]",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --watchAll"
   },
