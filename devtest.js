@@ -1,16 +1,11 @@
-const Block = require('./blockchain/block')
 const Blockchain = require('./blockchain/blockchain')
 
-// const testBlock = Block.mineBlock(Block.genesis(), 'testBlock');
-// console.log(testBlock.toString());
+function testPoW(){
+const blockchain = new Blockchain();
 
-bc = new Blockchain();
+for (let block_num = 0; block_num < 10; block_num++){
+    console.log(blockchain.addBlock(`data ${block_num}`).toString());
+}
+}
 
-bc1 = new Blockchain();
-bc1.addBlock('dummy');
-
-data = 'bar';
-prevBlock = Block.genesis();
-block = Block.mineBlock(prevBlock, data);
-
-console.log(Block.adjustDifficulty(block, block.timestamp + 5000) == (block.difficulty -1));
+testPoW();
