@@ -4,7 +4,7 @@ class Transaction{
     constructor(){
         this.id = ChainUtil.id();
         this.input = null;
-        this.output = [];
+        this.outputs = [];
     }
 
     static newTransaction(senderWallet, recipientAddress, amount){
@@ -17,12 +17,15 @@ class Transaction{
             return;
         }
 
-        this.output.push(...[  //...  is ES6 spread syntax that allows an iterable such as an array expression 
-                               //or string to be expanded in places where zero or more arguments (for function calls)
+        transaction.outputs.push(...[  
             { amount, address: recipientAddress },
             { amount: senderWallet.balance - amount, address: senderWallet.publicKey }
     
         ]);
+        //...  is ES6 spread syntax that allows an iterable such as an array expression 
+        //or string to be expanded in places where zero or more arguments (for function calls)
+    
+        return transaction;
     }
 }
 

@@ -1,5 +1,6 @@
 const Blockchain = require('./blockchain/blockchain');
 const Wallet = require('./wallet');
+const Transaction = require('./wallet/transaction')
 
 
 function testPoW(){
@@ -12,5 +13,11 @@ function testPoW(){
 
 //testPoW();
 
-var wallet = new Wallet();
-console.log(wallet.toString());
+wallet = new Wallet();
+amount = 50;
+recipientAddress = "r3c1p13nt";
+transaction = Transaction.newTransaction(wallet, recipientAddress, amount);
+console.log(transaction);
+console.log(transaction.outputs.find(output => output.address === recipientAddress).amount);
+
+console.log(transaction.outputs.find(output => output.address === wallet.publicKey).amount === wallet.balance - amount);
