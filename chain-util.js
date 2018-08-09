@@ -1,4 +1,5 @@
 const EC = require('elliptic').ec;
+const SHA256 = require('crypto-js/sha256');
 const uuidV1 = require('uuid/v1'); //there are multiple versions of the id generation function, v1 fits our context
                                    //as it's timestamp based
 
@@ -20,6 +21,12 @@ class ChainUtil{
         //provides a universally unique identifier (uuid)
 
         return uuidV1();
+    }
+
+    static hash(data){
+        //signs the supplied data
+
+        return SHA256(JSON.stringify(data)).toString(); 
     }
 
 }

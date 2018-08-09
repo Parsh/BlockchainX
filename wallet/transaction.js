@@ -8,7 +8,7 @@ class Transaction{
     }
 
     static newTransaction(senderWallet, recipientAddress, amount){
-        //returns a new instance of the Transaction class with appropriate outputs
+        //returns a new instance of the Transaction class with appropriate inputs and outputs
 
         const transaction = new this();
 
@@ -24,8 +24,21 @@ class Transaction{
         ]);
         //...  is ES6 spread syntax that allows an iterable such as an array expression 
         //or string to be expanded in places where zero or more arguments (for function calls)
-    
+        
+        Transaction.signTransaction(transaction, senderWallet);
+
         return transaction;
+    }
+
+    static signTransaction(transaction, senderWallet){
+        // creates transaction input and signs the hash of the output of the transaction
+
+        transaction.input = {
+            timestamp: Date.now(),
+            amount: senderWallet.balance,
+            address: senderWallet.publicKey,
+            signature: senderWallet.sign(ChainUtil.hash(transaction.outputs))
+        };
     }
 }
 
