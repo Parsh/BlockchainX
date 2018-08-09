@@ -34,13 +34,13 @@ class Blockchain{
 
     replaceChain(newChain){
         //replaces the current blockchain with a new valid and longer blockchain
-
+        console.log("Recieved a blockchain");
         if (newChain.length <= this.chain.length){
-            console.log("Supplied chain isn't longer(less PoW) than the current chain");
+            console.log("Not Replacing: Supplied chain isn't longer(less or equal PoW) than the current chain");
         } else if (!this.isValidChain(newChain)){
-            console.log("The recieved chain isn't valid");
+            console.log("Not Replacing: The recieved chain isn't valid");
         } else {
-            console.log("Replacing the current blockchain with the supplied one #Long&Valid");
+            console.log("Replacing the current blockchain with the one recieved #Long&Valid");
             this.chain = newChain;
         }
     }
