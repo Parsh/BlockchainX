@@ -1,13 +1,14 @@
 const SHA256 = require('crypto-js/sha256');
-const { DIFFICULTY } = require('../config');
+const { DIFFICULTY, MINE_RATE } = require('../config');
 
 class Block{
-    constructor(timestamp, prevHash, hash, data, nonce){
+    constructor(timestamp, prevHash, hash, data, nonce, difficulty){
         this.timestamp = timestamp;
         this.prevHash = prevHash;
         this.hash = hash;
         this.data = data;
         this.nonce = nonce;
+        this.difficulty = difficulty || DIFFICULTY;
     }
 
     toString(){
@@ -17,6 +18,7 @@ class Block{
         Previous Block's Hash : ${this.prevHash}
         Current Block's Hash  : ${this.hash}
         Nonce                 : ${this.nonce}
+        Difficulty            : ${this.difficulty}
         Block's Data          : ${this.data} `; 
     }
 
@@ -29,26 +31,27 @@ class Block{
     static mineBlock(prevBlock, data){
         //mines(generates) a block 
 
-        const prevHash = prevBlock.hash;
-        let nonce = 0;
+        let {prevHash,difficulty} = prevBlock; //ES6 distruction syntax: assigns corresponding key's value from the object to the variables
         let hash, timestamp;
+        let nonce = 0;
         console.time("Block in mined in");
         
         do{
             nonce++;
             timestamp = Date.now();
+            difficulty = Block.adjustDifficulty(prevBlock, timestamp);
             hash = Block.createHash(timestamp, prevHash, data, nonce);
-        }while(hash.substring(0, DIFFICULTY) !== "0".repeat(DIFFICULTY));
+        }while(hash.substring(0, difficulty) !== "0".repeat(difficulty));
 
         console.timeEnd("Block is mined in")
 
         return new this(timestamp, prevHash, hash, data, nonce);
     }
 
-    static createHash(timestamp, prevHash, data, nonce){
+    static createHash(timestamp, prevHash, data, nonce, difficulty){
         //generates and returns a SHA256 digest
 
-       return SHA256(`${timestamp}${prevHash}${data}${nonce}`).toString();
+       return SHA256(`${timestamp}${prevHash}${data}${nonce}${difficulty}`).toString();
     }
 
     static blockHash(block){
@@ -58,10 +61,17 @@ class Block{
         // const prevHash = block.prevHash;
         // const data = block.data; 
         //(Following is an ES6 short hand for the above assignments)
-        const {timestamp, prevHash, data, nonce} = block; //corresponding attribute values are assigned
+        const {timestamp, prevHash, data, nonce, difficulty} = block; //corresponding attribute values are assigned
         
-        return Block.createHash(timestamp, prevHash, data, nonce);
+        return Block.createHash(timestamp, prevHash, data, nonce, difficulty);
     }
+
+    static adjustDifficulty(prevBlock, currentTime){
+        let { difficulty } = prevBlock;
+        difficulty = prevBlock.timestamp + MINE_RATE > currentTime ? difficulty + 1 : difficulty - 1;
+        return difficulty;
+    }
+
 }
 
 module.exports = Block;
