@@ -17,7 +17,7 @@ describe("Transaction", () => {
 
     it("should output the amount send to recipient address", () => {
         expect(transaction.outputs.find(output => output.address === recipientAddress).amount)
-        .toEqual(amount);
+            .toEqual(amount);
     });
 
     it("should include the input with an amount equal to wallet balance", () => {
@@ -36,7 +36,7 @@ describe("Transaction", () => {
 });
 
 describe("Transacting with an amount that exceeds the balance", () => {
-    let transaction, wallet, recipientAddress, amount
+    let transaction, wallet, recipientAddress, amount;
     
     beforeEach(()=>{ 
         wallet = new Wallet();
@@ -49,4 +49,31 @@ describe("Transacting with an amount that exceeds the balance", () => {
         expect(transaction).toEqual(undefined);
     });
 
+});
+
+describe("Updating Transaction", () => {
+    let transaction, wallet, recipientAddress, amount;
+    let nextAmount, nextRecipient;
+
+    beforeEach(()=>{
+
+        wallet = new Wallet();
+        amount = 50;
+        recipientAddress = "r3c1p13nt";
+        transaction = Transaction.newTransaction(wallet, recipientAddress, amount);
+
+        nextAmount = 20;
+        nextRecipientAddress = "n3xt-4ddr355";
+        transaction = transaction.update(wallet, nextRecipientAddress, nextAmount);
+    });
+
+    it(`should substract the next amount from the sender's output`, () => { 
+        expect(transaction.outputs.find(output => output.address === wallet.publicKey).amount)
+            .toEqual(wallet.balance - amount - nextAmount);
+    });
+
+    it('should contain an output with appropriate ammount for the next recipient', () => {
+        expect(transaction.outputs.find(output => output.address === nextRecipientAddress).amount)
+            .toEqual(nextAmount);
+    });
 });
