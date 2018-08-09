@@ -7,13 +7,36 @@ class Transaction{
         this.outputs = [];
     }
 
+    update(senderWallet, recipientAddress, amount){
+        //allows a transaction to incorpoarate more outputs that might be intended for some other recipient
+        //thereby enabling multiple entity payment mechanism.
+
+        //find the output from the original transaction that corresponds to the sender itself (change)
+        const senderOuptput = this.outputs.find(output => output.address === senderWallet.publicKey);
+
+        if(amount > senderOuptput.amount){
+            console.log(`Cannot update the transaction, Amount: ${amount} exceeds wallet balance.`);
+            return;
+        }
+
+        //the output object who's address corresponds to the sender's address in the outputs array gets updated 
+        //because Javascript employs pass-by-refference mechanism, thereby the following statemend would update it
+        senderOuptput.amount = senderOuptput.amount - amount; 
+
+        this.outputs.push({amount, address: recipientAddress});
+        Transaction.signTransaction(this, senderWallet);
+
+        return this;
+
+    }
+
     static newTransaction(senderWallet, recipientAddress, amount){
         //returns a new instance of the Transaction class with appropriate inputs and outputs
 
         const transaction = new this();
 
         if (amount > senderWallet.balance){
-            console.log(`Cannot prepare a transaction, Amount: ${amount} exceeds wallet balance.`);
+            console.log(`Cannot prepare the transaction, Amount: ${amount} exceeds wallet balance.`);
             return;
         }
 
