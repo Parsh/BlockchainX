@@ -32,11 +32,15 @@ class Block{
         const prevHash = prevBlock.hash;
         let nonce = 0;
         let hash, timestamp;
+        let start = performance.now();
+        
         do{
             nonce++;
             timestamp = Date.now();
             hash = Block.createHash(timestamp, prevHash, data, nonce);
         }while(hash.substring(0, DIFFICULTY) !== "0".repeat(DIFFICULTY));
+
+        console.log(`Block mined in ${Math.floor((start - performance.now())/1000)} seconds`)
 
         return new this(timestamp, prevHash, hash, data, nonce);
     }
