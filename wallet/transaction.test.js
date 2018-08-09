@@ -19,6 +19,11 @@ describe("Transaction", () => {
         expect(transaction.outputs.find(output => output.address === recipientAddress).amount)
         .toEqual(amount);
     });
+
+    it("should include the input with an amount equal to wallet balance", () => {
+        expect(transaction.input.amount).toEqual(wallet.balance);
+    });
+
 });
 
 describe("Transacting with an amount that exceeds the balance", () => {
