@@ -31,21 +31,20 @@ class Block{
     static mineBlock(prevBlock, data){
         //mines(generates) a block 
 
-        let {prevHash,difficulty} = prevBlock; //ES6 distruction syntax: assigns corresponding key's value from the object to the variables
+        let prevHash = prevBlock.hash;
+        let {difficulty} = prevBlock; //ES6 distruction syntax: assigns corresponding key's value from the object to the variable
         let hash, timestamp;
         let nonce = 0;
-        console.time("Block in mined in");
+    
         
         do{
             nonce++;
             timestamp = Date.now();
             difficulty = Block.adjustDifficulty(prevBlock, timestamp);
-            hash = Block.createHash(timestamp, prevHash, data, nonce);
+            hash = Block.createHash(timestamp, prevHash, data, nonce, difficulty);
         }while(hash.substring(0, difficulty) !== "0".repeat(difficulty));
 
-        console.timeEnd("Block is mined in")
-
-        return new this(timestamp, prevHash, hash, data, nonce);
+        return new this(timestamp, prevHash, hash, data, nonce, difficulty);
     }
 
     static createHash(timestamp, prevHash, data, nonce, difficulty){
@@ -62,12 +61,12 @@ class Block{
         // const data = block.data; 
         //(Following is an ES6 short hand for the above assignments)
         const {timestamp, prevHash, data, nonce, difficulty} = block; //corresponding attribute values are assigned
-        
         return Block.createHash(timestamp, prevHash, data, nonce, difficulty);
     }
 
     static adjustDifficulty(prevBlock, currentTime){
         let { difficulty } = prevBlock;
+    
         difficulty = prevBlock.timestamp + MINE_RATE > currentTime ? difficulty + 1 : difficulty - 1;
         return difficulty;
     }

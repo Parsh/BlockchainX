@@ -1,5 +1,5 @@
-const Block = require('./block')
-const Blockchain = require('./blockchain')
+const Block = require('./blockchain/block')
+const Blockchain = require('./blockchain/blockchain')
 
 // const testBlock = Block.mineBlock(Block.genesis(), 'testBlock');
 // console.log(testBlock.toString());
@@ -9,7 +9,8 @@ bc = new Blockchain();
 bc1 = new Blockchain();
 bc1.addBlock('dummy');
 
-bc.replaceChain(bc1.chain)
+data = 'bar';
+prevBlock = Block.genesis();
+block = Block.mineBlock(prevBlock, data);
 
-console.log(bc.chain == bc1.chain)
-console.log(bc.chain)
+console.log(Block.adjustDifficulty(block, block.timestamp + 5000) == (block.difficulty -1));

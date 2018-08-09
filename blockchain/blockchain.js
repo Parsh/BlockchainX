@@ -21,7 +21,7 @@ class Blockchain{
         //checks whether the supplied chain is valid
 
         if (JSON.stringify(chainx[0]) !== JSON.stringify(Block.genesis())) return false;
-
+        
         for (let blockNum =1; blockNum < chainx.length; blockNum++){
             const currentBlock = chainx[blockNum];
             const prevBlock = chainx[blockNum - 1];
