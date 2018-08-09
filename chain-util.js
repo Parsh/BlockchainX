@@ -30,7 +30,7 @@ class ChainUtil{
     }
 
     static verifySignature(publicKey, signature, dataHash){
-        //verifies the signature using the ec module
+        //verifies the signature, using the ec module, returning true/false
 
         return ec.keyFromPublic(publicKey, 'hex').verify(dataHash, signature);
     }

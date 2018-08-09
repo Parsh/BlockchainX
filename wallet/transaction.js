@@ -44,7 +44,7 @@ class Transaction{
     static verifyTransaction(transaction){
         //verifies a transaction
 
-        ChainUtil.verifySignature(
+        return ChainUtil.verifySignature(
             transaction.input.address,
             transaction.input.signature,
             ChainUtil.hash(transaction.outputs)

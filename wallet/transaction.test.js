@@ -4,7 +4,7 @@ const Wallet = require('./index');
 describe("Transaction", () => {
     let transaction, wallet, recipientAddress, amount;
 
-    beforeEach(() => {
+    beforeEach(() => {      //provides every unit test (it) with a fresh transaction object
         wallet = new Wallet();
         amount = 50;
         recipientAddress = "r3c1p13nt";
@@ -24,12 +24,21 @@ describe("Transaction", () => {
         expect(transaction.input.amount).toEqual(wallet.balance);
     });
 
+    it("should validate a valid transaction", () => {
+        expect(Transaction.verifyTransaction(transaction)).toBe(true);
+    });
+
+    it("should invalidate a corrupt transaction", () => {
+        transaction.outputs[0].amount = 40000; //corrupting the transaction 
+        expect(Transaction.verifyTransaction(transaction)).toBe(false);
+    });
+
 });
 
 describe("Transacting with an amount that exceeds the balance", () => {
     let transaction, wallet, recipientAddress, amount
     
-    beforeEach(()=>{
+    beforeEach(()=>{ 
         wallet = new Wallet();
         amount = 5000;
         recipientAddress = "r3c1p13nt";
