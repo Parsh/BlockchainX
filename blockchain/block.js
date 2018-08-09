@@ -1,5 +1,5 @@
 const SHA256 = require('crypto-js/sha256');
-const DIFFICULTY = 4;
+const { DIFFICULTY } = require('../config');
 
 class Block{
     constructor(timestamp, prevHash, hash, data, nonce){
@@ -32,7 +32,7 @@ class Block{
         const prevHash = prevBlock.hash;
         let nonce = 0;
         let hash, timestamp;
-        let start = performance.now();
+        console.time("Block in mined in");
         
         do{
             nonce++;
@@ -40,7 +40,7 @@ class Block{
             hash = Block.createHash(timestamp, prevHash, data, nonce);
         }while(hash.substring(0, DIFFICULTY) !== "0".repeat(DIFFICULTY));
 
-        console.log(`Block mined in ${Math.floor((start - performance.now())/1000)} seconds`)
+        console.timeEnd("Block is mined in")
 
         return new this(timestamp, prevHash, hash, data, nonce);
     }
