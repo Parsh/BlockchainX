@@ -1,15 +1,21 @@
 const express = require('express');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const Blockchain = require('../blockchain/blockchain');
 const P2pServer = require('./p2p-server');
+const Wallet = require('../wallet');
+const TransactionPool = require('../wallet/transaction-pool');
 
 const HTTP_PORT = process.env.HTTP_PORT || 3000;
 
 const app = express();
 const blockchain = new Blockchain();
+const wallet = new Wallet();
+const transactionPool = new TransactionPool();
 const p2pServer = new P2pServer(blockchain);
 
 app.use(bodyParser.json());
+app.use(morgan("combined"));
 
 app.get('/', (req, res) => {
     res.send("<h1>Welcome To BlockchainX<h1>")
@@ -17,6 +23,10 @@ app.get('/', (req, res) => {
 
 app.get('/blocks', (req, res) => {
     res.json(blockchain.chain);
+});
+
+app.get('/transactions', (req, res) => {
+    res.json(transactionPool.transactions);
 });
 
 app.post('/mine', (req, res) => {
