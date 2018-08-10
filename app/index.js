@@ -9,10 +9,11 @@ const TransactionPool = require('../wallet/transaction-pool');
 const HTTP_PORT = process.env.HTTP_PORT || 3000;
 
 const app = express();
+
 const blockchain = new Blockchain();
 const wallet = new Wallet();
 const transactionPool = new TransactionPool();
-const p2pServer = new P2pServer(blockchain);
+const p2pServer = new P2pServer(blockchain, transactionPool);
 
 app.use(bodyParser.json());
 app.use(morgan("combined"));
