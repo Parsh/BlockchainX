@@ -1,5 +1,4 @@
 const express = require('express');
-const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const Blockchain = require('../blockchain/blockchain');
 const P2pServer = require('./p2p-server');
@@ -16,7 +15,6 @@ const transactionPool = new TransactionPool();
 const p2pServer = new P2pServer(blockchain, transactionPool);
 
 app.use(bodyParser.json());
-app.use(morgan("combined"));
 
 app.get('/', (req, res) => {
     res.send("<h1>Welcome To BlockchainX<h1>")
@@ -42,6 +40,7 @@ app.post('/mine', (req, res) => {
 app.post('/transact', (req, res) => {
     const { recipient, amount } = req.body;
     const transaction = wallet.createTransaction(recipient, amount, transactionPool);
+    p2pServer.broadcastTransaction(transaction);
     res.redirect('/transactions');
 });
 

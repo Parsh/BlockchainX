@@ -61,9 +61,17 @@ class P2pServer{
 
         socket.on('message', message => {
             const data = JSON.parse(message);
-            //console.log(`Data: ${message}`);
+            
+            switch(data.type){
+                case MESSAGE_TYPES.blockchain:
+                    this.blockchain.replaceChain(data.blockchain);
+                    break;
+                case MESSAGE_TYPES.transaction:
+                    this.transactionPool.updateOrAddTransaction(data.transaction);
+                    console.log("Recieved: Transaction")
+                    break;
+            }
 
-            this.blockchain.replaceChain(data);
         });
     }
 
@@ -72,7 +80,7 @@ class P2pServer{
 
         socket.send(JSON.stringify({ 
             type: MESSAGE_TYPES.blockchain, 
-            chain: this.blockchain.chain
+            blockchain: this.blockchain.chain
         })); 
     }
 
