@@ -1,6 +1,6 @@
 # BlockchainX
 
-BlockchainX is a full fledged blockchain application. More specifically it's a peer-to-peer electronic cash system, with cryptocurrency: CoinX. 
+BlockchainX is a full fledged blockchain application. Specifically, it's a peer-to-peer electronic cash system, inspired by Bitcoin, with cryptocurrency: CoinX. 
 
 ## Getting Started
 
@@ -60,7 +60,7 @@ There are 31 unit tests packed into 5 test suites that helps in ensuring that ev
 $ npm test
 ```
 
-If you see the following output after the tests complete, it implies that no component of BlockchainX is broken.
+If you see the following output after the tests complete, it implies that no component of BlockchainX is broken and we are all good to get the project up and running.
 
 ```
 Test Suites: 5 passed, 5 total
