@@ -28,6 +28,12 @@ app.get('/transactions', (req, res) => {
     res.json(transactionPool.transactions);
 });
 
+app.get('/public-key', (req, res) => {
+    res.json({
+        publicKey: wallet.publicKey
+    });
+});
+
 app.post('/mine', (req, res) => {
     const block = blockchain.addBlock(req.body.data);
     console.log(`New block added\n${block.toString()}`)
