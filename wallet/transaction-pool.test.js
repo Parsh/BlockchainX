@@ -8,10 +8,8 @@ describe("Transaction Pool", () => {
     beforeEach(() => {
         transactionPool = new TransactionPool();
         wallet = new Wallet();
-        transaction = Transaction.newTransaction(wallet, 'random-address456', 30);
-        transactionPool.updateOrAddTransaction(transaction);
+        transaction = wallet.createTransaction('random-address456', 30, transactionPool);
     });
-
 
     it('should add the transaction to the pool', () => {
         expect(transactionPool.transactions.find(t => t.id === transaction.id)).toEqual(transaction);
@@ -24,6 +22,34 @@ describe("Transaction Pool", () => {
         
         expect(transactionPool.transactions.find(t => t.id === updatedTransaction.id))
             .not.toEqual(oldTransaction);
+    });
+
+    describe('mixing valid and corrupt transactions', () => {
+        let validTransactions;
+
+        beforeEach(() => {
+            validTransactions = [...transactionPool.transactions]; //at the moment, we know that the pool only has valid
+                                                                   //transactions, so we unfold them in validTransactions
+            //Lets create some valid and corrupt transactions for the pool
+            for (i = 0; i < 6; i++){
+                wallet = new Wallet();
+                transaction = wallet.createTransaction(`random_address${i}99`, 30, transactionPool);
+                
+                if(i % 2 == 0){
+                    transaction.input.amount = 999999; //corrupt the transaction
+                } else {
+                    validTransactions.push(transaction); //send valids to validTransaction
+                }
+            }
+        });
+
+        it('should show difference between valid and corrupt transactions', () => {
+            expect(JSON.stringify(transactionPool.transactions)).not.toEqual(JSON.stringify(validTransactions));    
+        });
+
+        it('should grab valid transactions from the transaction pool', () => {
+            expect(transactionPool.validTransactions()).toEqual(validTransactions);
+        });
     });
 
 });
