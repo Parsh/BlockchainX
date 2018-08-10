@@ -4,7 +4,8 @@ const P2P_PORT = process.env.P2P_PORT || 5000;
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 const MESSAGE_TYPES = {
     blockchain : "BLOCKCHAIN",
-    transaction: "TRANSACTION"
+    transaction: "TRANSACTION",
+    clear_transactions: "CLEAR_TRANSACTIONS"
 }
 
 
@@ -70,6 +71,9 @@ class P2pServer{
                     this.transactionPool.updateOrAddTransaction(data.transaction);
                     console.log("Recieved: Transaction")
                     break;
+                case MESSAGE_TYPES.clear_transactions:
+                    this.transactionPool.clear();
+                    break;
             }
 
         });
@@ -105,6 +109,14 @@ class P2pServer{
         //broadcasts the transaction to all the connected peers
 
         this.sockets.forEach(socket => this.sendTransaction(socket, transaction));
+    }
+
+    broadcastClearTransaction(){
+        //broadcasts clear transaction message, via sockets, to all the connected peers
+
+        this.sockets.forEach(socket => socket.send(JSON.stringify({
+            type: MESSAGE_TYPES.clear_transactions
+        })));
     }
 
 }
