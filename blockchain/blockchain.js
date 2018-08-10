@@ -38,7 +38,7 @@ class Blockchain{
         //replaces the current blockchain with a new valid and longer blockchain
         console.log("Recieved a blockchain");
         if (newChain.length <= this.chain.length){
-            console.log("Not Replacing: Supplied chain isn't longer(less or equal PoW) than the current chain");
+            console.log("Not Replacing: Supplied chain isn't longer than the current chain");
         } else if (!this.isValidChain(newChain)){
             console.log("Not Replacing: The recieved chain isn't valid");
         } else {
