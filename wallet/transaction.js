@@ -1,4 +1,5 @@
 const ChainUtil = require('../chain-util');
+const { MINING_REWARD } = require('../config');
 
 class Transaction{
     constructor(){
@@ -30,27 +31,47 @@ class Transaction{
 
     }
 
-    static newTransaction(senderWallet, recipientAddress, amount){
-        //returns a new instance of the Transaction class with appropriate inputs and outputs
+    static transactionWithOutputs(senderWallet, outputs){
+        //constructs a transaction with the help of the supplied outputs and sender's wallet
 
         const transaction = new this();
+        transaction.outputs.push(...outputs);  
+        //...  is ES6 spread syntax that allows an iterable such as an array expression 
+        //or string to be expanded in places where zero or more arguments (for function calls)
+
+        Transaction.signTransaction(transaction, senderWallet);
+        return transaction;
+    }
+
+    static newTransaction(senderWallet, recipientAddress, amount){
+        //returns a new instance of the Transaction class with appropriate inputs and outputs
 
         if (amount > senderWallet.balance){
             console.log(`Cannot prepare the transaction, Amount: ${amount} exceeds wallet balance.`);
             return;
         }
 
-        transaction.outputs.push(...[  
+        //construct the output and change(back to the sender) output
+        var outputs = [  
             { amount, address: recipientAddress },
             { amount: senderWallet.balance - amount, address: senderWallet.publicKey }
-    
-        ]);
-        //...  is ES6 spread syntax that allows an iterable such as an array expression 
-        //or string to be expanded in places where zero or more arguments (for function calls)
-        
-        Transaction.signTransaction(transaction, senderWallet);
+        ]
+      
+        return Transaction.transactionWithOutputs(senderWallet, outputs);
+    }
 
-        return transaction;
+    static rewardTransaction(minerWallet, blockchainWallet){
+        //generates a coinbase/reward transaction
+
+        //blockchain wallet: a special wallet that generate signatures in order to confirm and authenticate 
+        // reward transactions, therefore, the blockchain implementation itself is the one responsible for 
+        //approving the reward. This special transaction is also referred to as the coinbase transaction.
+
+        var outputs = [
+            {amount: MINING_REWARD, address: minerWallet.publicKey}
+        ]
+
+        return Transaction.transactionWithOutputs(blockchainWallet, outputs)
     }
 
     static signTransaction(transaction, senderWallet){

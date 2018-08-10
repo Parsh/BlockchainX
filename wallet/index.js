@@ -43,6 +43,15 @@ class Wallet {
 
     }
 
+    static blockchainWallet(){
+        //generates an instance of the special blockchain wallet
+
+        const blockchainWallet = new this();
+        blockchainWallet.publicKey = "blockchain-wallet"; //special public-key(address) that implies that this is 
+                                                          //the blockchain wallet
+        return blockchainWallet;
+    }
+
 }
 
 module.exports = Wallet;
