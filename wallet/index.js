@@ -21,8 +21,10 @@ class Wallet {
         return this.keyPair.sign(dataHash);
     }
 
-    createTransaction(recipient, amount, transactionPool){
+    createTransaction(recipient, amount, blockchain, transactionPool){
         // creates or updates a transaction and sends it to the transactionPool
+
+        this.balance = this.calculateBalance(blockchain);
 
         if(amount > this.balance){
             cosnole.log(`Transaction not created, Amount: ${amount} exceeds current balance: ${this.balance}`);
@@ -83,6 +85,8 @@ class Wallet {
                 })
             }
         });    
+
+        return balance;
     }
 
     static blockchainWallet(){

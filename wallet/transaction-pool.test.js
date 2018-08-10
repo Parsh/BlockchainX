@@ -1,6 +1,7 @@
 const TransactionPool = require("./transaction-pool");
 const Transaction = require("./transaction");
 const Wallet = require("./index");
+const Blockchain = require('../blockchain/blockchain');
 
 describe("Transaction Pool", () => {
     let transactionPool, transaction, wallet;
@@ -8,7 +9,8 @@ describe("Transaction Pool", () => {
     beforeEach(() => {
         transactionPool = new TransactionPool();
         wallet = new Wallet();
-        transaction = wallet.createTransaction('random-address456', 30, transactionPool);
+        blockchain = new Blockchain();
+        transaction = wallet.createTransaction('random-address456', 30, blockchain, transactionPool);
     });
 
     it('should add the transaction to the pool', () => {
@@ -38,7 +40,7 @@ describe("Transaction Pool", () => {
             //Lets create some valid and corrupt transactions for the pool
             for (i = 0; i < 6; i++){
                 wallet = new Wallet();
-                transaction = wallet.createTransaction(`random_address${i}99`, 30, transactionPool);
+                transaction = wallet.createTransaction(`random_address${i}99`, 30, blockchain, transactionPool);
                 
                 if(i % 2 == 0){
                     transaction.input.amount = 999999; //corrupt the transaction

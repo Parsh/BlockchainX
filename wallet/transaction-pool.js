@@ -34,7 +34,7 @@ class TransactionPool{
             
             
             if(transaction.input.amount !== outputTotal){
-                console.log(`Invalid transaction from ${transaction.input.address}.`);
+                console.log(`Invalid transaction from ${transaction.input.address}111.`);
                 return;
             }
 
