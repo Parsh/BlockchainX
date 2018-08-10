@@ -24,6 +24,11 @@ describe("Transaction Pool", () => {
             .not.toEqual(oldTransaction);
     });
 
+    it('should clear transactions', () => {
+        transactionPool.clear();
+        expect(transactionPool.transactions).toEqual([]);
+    });
+
     describe('mixing valid and corrupt transactions', () => {
         let validTransactions;
 
