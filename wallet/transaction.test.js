@@ -33,47 +33,40 @@ describe("Transaction", () => {
         expect(Transaction.verifyTransaction(transaction)).toBe(false);
     });
 
-});
-
-describe("Transacting with an amount that exceeds the balance", () => {
-    let transaction, wallet, recipientAddress, amount;
+    describe("Transacting with an amount that exceeds the balance", () => {
     
-    beforeEach(()=>{ 
-        wallet = new Wallet();
-        amount = 5000;
-        recipientAddress = "r3c1p13nt";
-        transaction = Transaction.newTransaction(wallet, recipientAddress, amount);
+        beforeEach(()=>{ 
+            amount = 5000;
+            transaction = Transaction.newTransaction(wallet, recipientAddress, amount);
+        });
+    
+        it("should not create the transaction", () => {
+            expect(transaction).toEqual(undefined);
+        });
+    
     });
 
-    it("should not create the transaction", () => {
-        expect(transaction).toEqual(undefined);
+    describe("Updating Transaction", () => {
+        let nextAmount, nextRecipient;
+    
+        beforeEach(()=>{
+            nextAmount = 20;
+            nextRecipientAddress = "n3xt-4ddr355";
+            transaction = transaction.update(wallet, nextRecipientAddress, nextAmount);
+        });
+    
+        it(`should substract the next amount from the sender's output`, () => { 
+            expect(transaction.outputs.find(output => output.address === wallet.publicKey).amount)
+                .toEqual(wallet.balance - amount - nextAmount);
+        });
+    
+        it('should contain an output with appropriate ammount for the next recipient', () => {
+            expect(transaction.outputs.find(output => output.address === nextRecipientAddress).amount)
+                .toEqual(nextAmount);
+        });
     });
 
 });
 
-describe("Updating Transaction", () => {
-    let transaction, wallet, recipientAddress, amount;
-    let nextAmount, nextRecipient;
 
-    beforeEach(()=>{
 
-        wallet = new Wallet();
-        amount = 50;
-        recipientAddress = "r3c1p13nt";
-        transaction = Transaction.newTransaction(wallet, recipientAddress, amount);
-
-        nextAmount = 20;
-        nextRecipientAddress = "n3xt-4ddr355";
-        transaction = transaction.update(wallet, nextRecipientAddress, nextAmount);
-    });
-
-    it(`should substract the next amount from the sender's output`, () => { 
-        expect(transaction.outputs.find(output => output.address === wallet.publicKey).amount)
-            .toEqual(wallet.balance - amount - nextAmount);
-    });
-
-    it('should contain an output with appropriate ammount for the next recipient', () => {
-        expect(transaction.outputs.find(output => output.address === nextRecipientAddress).amount)
-            .toEqual(nextAmount);
-    });
-});
