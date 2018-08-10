@@ -38,6 +38,12 @@ app.post('/mine', (req, res) => {
     res.redirect('/blocks');
 });
 
+app.post('/transact', (req, res) => {
+    const { recipient, amount } = req.body;
+    const transaction = wallet.createTransaction(recipient, amount, transactionPool);
+    res.redirect('/transactions');
+});
+
 app.listen(HTTP_PORT, () => {
     console.log(`Server up and listening at ${HTTP_PORT}`)
 });
