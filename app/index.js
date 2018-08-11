@@ -18,7 +18,7 @@ const miner = new Miner(blockchain, transactionPool, wallet, p2pServer);
 
 app.use(bodyParser.json());
 
-app.get('/blocks', (req, res) => {
+app.get('/blockchain', (req, res) => {
     res.json(blockchain.chain);
 });
 
@@ -38,10 +38,10 @@ app.get('/check-balance', (req, res) => {
     });
 });
 
-app.get('/mine-transactions', (req, res) => {
+app.get('/mine-block', (req, res) => {
     const block = miner.mine();
     console.log(`New block added: ${block.toString()}`);
-    res.redirect('/blocks');
+    res.redirect('/blockchain');
 });
 
 app.post('/transact', (req, res) => {
