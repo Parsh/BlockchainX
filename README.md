@@ -88,7 +88,7 @@ It should produce an output as shown in the image below.
 
 ![](./images/PeerInstances.png)
 
-If everything went well to this point, then you have a small (2 instance) P2P-network operating successfully. In order to expand the network, you can use the following commnand-template to sprout new P2P-servers:
+If everything went well to this point, then you have a small (2 instances) P2P-network operating successfully. In order to expand the network, you can use the following commnand-template to sprout new P2P-servers:
 
 ```
 HTTP_PORT=<specify_http_port> P2P_PORT=<specify_p2p_port> PEERS=<specify_peers_seperated_by_commas> npm start
@@ -100,3 +100,37 @@ HTTP_PORT=3002 P2P_PORT=5002 PEERS=ws://localhost:5000,ws://localhost:5001 npm s
 ```
 
 And that completes the establishment of the P2P-Network.
+
+## Operating on BlockchainX
+
+### Using Wallet
+
+Each P2P-server instance(node) comes with an in-built wallet which could be used create, sign and send transactions as well as it exposes the publicKey, which acts as an address, to recieve payments. In order to get the economy going, each wallet starts with an initial balance (as specified in config.js).
+
+Following are the API endpoints, as specified in app/index.js, that you can use to interact (using Postman for example) with the system:
+
+GET Requests:
+
+- http://localhost:<http_port>/check-balance : provides json specifying wallet's current balance.
+
+- http://localhost:<http_port>/public-key    : provides json specifying wallet's public key which acts as an address in the system.
+
+POST Request:
+
+- http://localhost:<http_port>/transact      : constructs a transaction and broadcasts it into the network. The post request requires the sender to specify the address of the recipient and the amount to be sent.  
+
+### Mining Blocks
+
+Every P2P-server is also loaded with mining capabilities, therefore, they can mine blocks using the Proof of Work (Hashcash) mechanism and in that process they grab valid transactions(unconfirmed) from the transaction pool and add them to the blockchain, thereby, confirming the transactions. The rate at which a block is mined, is specified in config.js and it also keeps the dynamic difficulty in check. 
+
+Following are the API endpoints:
+
+GET Requests:
+
+- http://localhost:<http_port>/blockchain       : provides the blockchain (current state) in json format.
+
+- http://localhost:<http_port>/transaction-pool : provides the transactions that are currently present in the transaction pool.
+
+- http://localhost:<http_port>/mine-block             : instructs the node to start mining a block.
+
+At the moment, there is no transaction fee, however, to incentivise miners to mine the blocks and confirm transactions a reward of 50 CoinX is provided, in the form of a coinbase transaction, to the miner who successfully mines the block.
