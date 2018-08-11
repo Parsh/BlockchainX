@@ -111,13 +111,13 @@ Following are the API endpoints, as specified in app/index.js, that you can use 
 
 GET Requests:
 
-- **http&#58;://localhost:<http_port>/check-balance** : provides json specifying wallet's current balance.
+- **http&#58;//localhost:<http_port>/check-balance**: provides json specifying wallet's current balance.
 
-- **http&#58;://localhost:<http_port>/public-key**    : provides json specifying wallet's public key which acts as an address in the system.
+- **http&#58;//localhost:<http_port>/public-key**: provides json specifying wallet's public key which acts as an address in the system.
 
 POST Request:
 
-- **http&#58;://localhost:<http_port>/transact**      : constructs a transaction and broadcasts it into the network. The post request requires the sender to specify the address of the recipient and the amount to be sent.  
+- **http&#58;//localhost:<http_port>/transact**: constructs a transaction and broadcasts it into the network. The post request requires the sender to specify the address of the recipient and the amount to be sent.  
 
 ### Mining Blocks
 
@@ -127,10 +127,10 @@ Following are the API endpoints:
 
 GET Requests:
 
-- **http&#58;://localhost:<http_port>/blockchain**       : provides the blockchain (current state) in json format.
+- **http&#58;//localhost:<http_port>/blockchain**: provides the blockchain (current state) in json format.
 
-- **http&#58;://localhost:<http_port>/transaction-pool** : provides the transactions that are currently present in the transaction pool.
+- **http&#58;//localhost:<http_port>/transaction-pool**: provides the transactions that are currently present in the transaction pool.
 
-- **http&#58;://localhost:<http_port>/mine-block**       : instructs the node to start mining a block.
+- **http&#58;//localhost:<http_port>/mine-block**: instructs the node to start mining a block.
 
 At the moment, there is no transaction fee, however, to incentivise miners to mine the blocks and confirm transactions a reward of 50 CoinX is provided, in the form of a coinbase/reward transaction, to the miner who successfully mines the block.
