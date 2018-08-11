@@ -101,7 +101,7 @@ HTTP_PORT=3002 P2P_PORT=5002 PEERS=ws://localhost:5000,ws://localhost:5001 npm s
 
 And that completes the establishment of the P2P-Network.
 
-## Operating on BlockchainX
+## Operating the system
 
 ### Using Wallet
 
